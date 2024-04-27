@@ -3,36 +3,35 @@ from src.player import Player
 from src.floors_create import Floors_Create
 import src.const as const
 import images
+from src.ladder import Ladder
+import src.levels as levels
+from src.menu import Menu
+
 
 pygame.init()
+
+
+clock = pygame.time.Clock()
 screen = pygame.display.set_mode((const.SCREEN_WIDTH,const.SCREEN_HEIGHT),pygame.FULLSCREEN)
 run = True
 
-player = Player(x = 10,
-                y = 1080-64-100)
-
-clock = pygame.time.Clock()
-FPS = 60
-floor1 = Floors_Create(0, 1080 - 64, 31, images.proof_floor, screen)
-floor2_1=  Floors_Create(0, 1080 - 64 * 4, 16, images.proof_floor, screen)
-
+level1 = levels.Level_1(screen)
+initial_menu = Menu(screen)
 while run:
-    clock.tick(FPS)
-    screen.blit(images.proof_bg, (0,0))
-    pressed_keys = pygame.key.get_pressed()
+    clock.tick(const.FPS)
+    key_pressed = pygame.key.get_pressed()
+    
+    level1.call_level_1()
+    
+        
     for event in pygame.event.get():
+        if key_pressed[pygame.K_ESCAPE]:
+            run = False
         if event.type == pygame.QUIT:
             run = False
-        if pressed_keys[pygame.K_ESCAPE]:
-            run = False
-
-    player.draw(screen,(255,255,0))
-    player.move()
-    floor1.draw_floors()
-    floor2_1.draw_floors()
-    
-    
-    
+        
     pygame.display.update()
+
+    
 
 pygame.quit()

@@ -21,8 +21,7 @@ class Floors_Create:
             self.actual_x += individual_floor.floor.width
             
         self.actual_x = self.initial_x
-    
-        print(self.floors)
+
     def draw_floors(self):
         
         for i in self.floors:

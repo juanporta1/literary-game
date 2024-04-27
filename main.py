@@ -1,22 +1,24 @@
 import pygame
 from src.player import Player
+from src.floors_create import Floors_Create
+import src.const as const
+import images
 
 pygame.init()
-screen = pygame.display.set_mode((1366,728),pygame.FULLSCREEN)
+screen = pygame.display.set_mode((const.SCREEN_WIDTH,const.SCREEN_HEIGHT),pygame.FULLSCREEN)
 run = True
 
-player = Player(x = 100,
-                y = 100)
+player = Player(x = 10,
+                y = 1080-64-100)
 
 clock = pygame.time.Clock()
 FPS = 60
-
-sky_bg = pygame.image.load("assets//proof_assets//sky_bg.png")
-sky_bg = pygame.transform.scale(sky_bg, (sky_bg.get_width() * 6, sky_bg.get_height() * 4))
+floor1 = Floors_Create(0, 1080 - 64, 31, images.proof_floor, screen)
+floor2_1=  Floors_Create(0, 1080 - 64 * 4, 16, images.proof_floor, screen)
 
 while run:
     clock.tick(FPS)
-    screen.blit(sky_bg, (0,0))
+    screen.blit(images.proof_bg, (0,0))
     pressed_keys = pygame.key.get_pressed()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -26,6 +28,10 @@ while run:
 
     player.draw(screen,(255,255,0))
     player.move()
+    floor1.draw_floors()
+    floor2_1.draw_floors()
+    
+    
     
     pygame.display.update()
 

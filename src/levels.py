@@ -5,49 +5,146 @@ from src.ladder import Ladder
 import src.const as const
 from src.floors_create import Floors_Create
 
-
+principal_run = True
 def create_level_floors(floor_list):
     draw_floors = []
     for i in floor_list:
-        floor = Floors_Create(i[0], i[1], i[2], i[3], i[4])
+        floor = Floors_Create(i[0], i[1], i[2], i[3], i[4], i[5])
         draw_floors.append(floor)
     return draw_floors
         
 def draw_list_floors(list):
     for i in list:
-        i.draw_floors()  
-class Level_1:
+        i.draw_floors() 
+        
+class Door:
+    
+    def __init__(self,x,y,screen):   
+        self.shape = pygame.Rect(x,y,100, 200)
+        self.enabled = False
+        self.screen = screen
+        self.green_arrow = images.green_arrow
+        self.red_arrow = images.red_arrow
+        self.arrow_position = [self.shape.centerx - 100, self.shape.centery - self.red_arrow.get_height() / 2]
+        self.clock = pygame.time.get_ticks()
+        self.count = 0
+    def draw(self):
+        self.arrows_animations()
+        if self.enabled:
+            self.screen.blit(self.green_arrow, (self.arrow_position))
+        else:
+            self.screen.blit(self.red_arrow, (self.arrow_position))
+            
+    def arrows_animations(self):
+        frame_time = 40
+        if (pygame.time.get_ticks() - self.clock) > frame_time:
+            if self.count <= 10:
+                if self.count <= 5:
+                    self.arrow_position[0] -= 5
+                elif self.count <= 10:
+                    self.arrow_position[0] += 5
+                self.count += 1
+            elif self.count <= 20:
+                if self.count <= 15:
+                    self.arrow_position[0] += 5
+                elif self.count <= 20:
+                    self.arrow_position[0] -= 5
+                self.count += 1
+            if self.count == 20:
+                self.count = 0
+            self.clock = pygame.time.get_ticks()
+
+class Key:
+    def __init__(self, x, y, screen): 
+        self.shape = pygame.Rect(x,y,50,50)
+        self.enabled = False
+        self.screen = screen
+        
+    def catch(self,player):
+        if self.shape.colliderect(player):
+            self.enabled = True
+        if not self.enabled:
+            pygame.draw.rect(self.screen,(0,255,255),self.shape)    
+        
+class Level:
+    def __init__(self,screen):
+        self.screen = screen
+        self.run = True
+        self.next_level = 1
+       
+class Level_1(Level):
     
     def __init__(self, screen):
-        self.screen = screen
-        self.player = Player(x = 10,
-                        y = 1080-64-100)
+        super().__init__(screen)
+        self.player = Player(x = 10, y = 1080 - 65 - 180)
+        self.door1 = Door(1820,815,self.screen)
+        self.door1_key = Key(30,700,self.screen)
+        
     def call_level_1(self):
         
 
         clock = pygame.time.Clock()
         
 
-        level1_floors = [[0, 1024, 31, images.proof_floor, self.screen],
-                        [0, 824, 16, images.proof_floor,self.screen],
-                        [1152, 824, 16, images.proof_floor,self.screen]]
+        level1_floors = [[0, 1015, 31, [images.mid_wood_floor,images.mid_wood_floor,images.mid_wood_floor], self.screen,True],
+                        [0, 750, 16,[images.mid_wood_floor,images.mid_wood_floor,images.mid_wood_floor],self.screen,False],
+                        [1155, 750, 15,[images.mid_wood_floor,images.mid_wood_floor,images.mid_wood_floor],self.screen,False]]
 
         floors = create_level_floors(level1_floors)
-        ladder = Ladder(1010, 625, images.proof_ladder)
-        run = True
+        ladder = Ladder(1050, 815, images.common_ladder)
+        ladders = [ladder]
+        
+        
 
-        while run:
+        while self.run:
+            
             self.screen.fill(const.SCREEN_COLOR)
             clock.tick(const.FPS)
             pressed_keys = pygame.key.get_pressed()
+            
+            if pressed_keys[pygame.K_ESCAPE]:
+                    self.run = False
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    run = False
-                if pressed_keys[pygame.K_ESCAPE]:
-                    run = False
-            self.player.draw(self.screen,(255,255,0))
-            self.player.move()
-            draw_list_floors(floors)
-            ladder.draw(self.screen)
+                    self.run = False
 
+            self.door1.draw()
+            draw_list_floors(floors)
+            self.door1_key.catch(self.player.shape)
+            if self.door1_key.enabled:
+                self.door1.enabled = True
+            
+            ladder.draw(self.screen)
+            stay_floor, is_first_floor = Floors_Create.detect_floor(floors, self.player)
+            stay_ladder = Ladder.detect_ladder(ladders, self.player)    
+                
+            self.player.draw(self.screen,(255,255,0))    
+            self.player.move(stay_floor, is_first_floor, stay_ladder)    
+            
+            if self.door1.shape.colliderect(self.player.shape) and self.door1.enabled:
+                self.run = False   
+                self.next_level = 2
+            
+            pygame.display.update()
+        
+class Level_2(Level):
+    
+    def __init__(self, screen):
+        super().__init__(screen)
+        self.player = Player(x = 10, y = 1080 - 65 - 180)
+        self.door1 = Door(1820,815,self.screen)
+        self.door1_key = Key(30,700,self.screen)
+        
+    def call_level_2(self):
+        clock = pygame.time.Clock()
+        while self.run:
+            self.screen.fill(const.SCREEN_COLOR)
+            clock.tick(const.FPS)
+            pressed_keys = pygame.key.get_pressed()
+            
+            if pressed_keys[pygame.K_ESCAPE]:
+                    self.run = False
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.run = False
             pygame.display.update()

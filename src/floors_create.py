@@ -43,9 +43,10 @@ class Floors_Create:
             return (stay_floor, floors[0].is_first_floor)
         else:
             for i in range(1, len(floors)):
-                if floors[i].all_floor.top == player.shape.bottom: 
+                if floors[i].all_floor.top == player.shape.bottom and player.shape.left < floors[i].all_floor.right - 20 and player.shape.right > floors[i].all_floor.left + 20: 
                     stay_floor = True    
                     return (stay_floor, floors[i].is_first_floor)
+                    
         return (stay_floor, False)
         
     def draw_floors(self):

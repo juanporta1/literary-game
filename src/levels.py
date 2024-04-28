@@ -4,6 +4,8 @@ import images
 from src.ladder import Ladder
 import src.const as const
 from src.floors_create import Floors_Create
+from src.ladders_create import Ladders_Create
+import src.functions as functions
 
 principal_run = True
 def create_level_floors(floor_list):
@@ -12,10 +14,21 @@ def create_level_floors(floor_list):
         floor = Floors_Create(i[0], i[1], i[2], i[3], i[4], i[5])
         draw_floors.append(floor)
     return draw_floors
+
+def create_level_ladders(ladder_list):
+    draw_ladders = []
+    for i in ladder_list:
+        ladder = Ladders_Create(i[0], i[1], i[2], i[3], i[4])
+        draw_ladders.append(ladder)
+    return draw_ladders
         
 def draw_list_floors(list):
     for i in list:
         i.draw_floors() 
+
+def draw_list_ladders(list):
+    for i in list:
+        i.draw_ladders() 
         
 class Door:
     
@@ -61,7 +74,11 @@ class Key:
         self.screen = screen
         
     def catch(self,player):
-        if self.shape.colliderect(player):
+        pressed_key = pygame.key.get_pressed()
+        if self.shape.colliderect(player) and not self.enabled:
+            self.screen.blit(functions.scale_images_screen(functions.scale_individual_image(images.key_e,2,2)), (const.SCREEN_WIDTH/2 - functions.scale_images_screen(images.key_e).get_width() / 2, 900 ))
+            
+        if self.shape.colliderect(player) and pressed_key[pygame.K_e]:
             self.enabled = True
         if not self.enabled:
             pygame.draw.rect(self.screen,(0,255,255),self.shape)    
@@ -76,7 +93,7 @@ class Level_1(Level):
     
     def __init__(self, screen):
         super().__init__(screen)
-        self.player = Player(x = 10, y = 1080 - 65 - 180)
+        self.player = Player(x = 10, y = 835)
         self.door1 = Door(1820,815,self.screen)
         self.door1_key = Key(30,700,self.screen)
         
@@ -89,10 +106,12 @@ class Level_1(Level):
         level1_floors = [[0, 1015, 31, [images.mid_wood_floor,images.mid_wood_floor,images.mid_wood_floor], self.screen,True],
                         [0, 750, 16,[images.mid_wood_floor,images.mid_wood_floor,images.mid_wood_floor],self.screen,False],
                         [1155, 750, 15,[images.mid_wood_floor,images.mid_wood_floor,images.mid_wood_floor],self.screen,False]]
+        
+        level1_ladders = [[1040, 1015, 2, images.common_ladder,self.screen]]
+
 
         floors = create_level_floors(level1_floors)
-        ladder = Ladder(1050, 815, images.common_ladder)
-        ladders = [ladder]
+        ladders = create_level_ladders(level1_ladders)
         
         
 
@@ -110,13 +129,14 @@ class Level_1(Level):
 
             self.door1.draw()
             draw_list_floors(floors)
+            draw_list_ladders(ladders)
             self.door1_key.catch(self.player.shape)
             if self.door1_key.enabled:
                 self.door1.enabled = True
             
-            ladder.draw(self.screen)
+            
             stay_floor, is_first_floor = Floors_Create.detect_floor(floors, self.player)
-            stay_ladder = Ladder.detect_ladder(ladders, self.player)    
+            stay_ladder = Ladders_Create.detect_ladder(ladders, self.player)    
                 
             self.player.draw(self.screen,(255,255,0))    
             self.player.move(stay_floor, is_first_floor, stay_ladder)    

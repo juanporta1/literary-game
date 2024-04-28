@@ -11,3 +11,5 @@ red_arrow = pygame.image.load("assets/arrows/red_arrow.gif")
 
 mid_wood_floor = pygame.image.load("assets/floors/wood_floors/mid_wood_floor.png")
 
+#Actions
+key_e = pygame.image.load("assets/actions/key_e.png") 

@@ -6,8 +6,8 @@ import src.const as const
 from src.floors_create import Floors_Create
 from src.ladders_create import Ladders_Create
 import src.functions as functions
+from src.menu import Menu
 
-principal_run = True
 def create_level_floors(floor_list):
     draw_floors = []
     for i in floor_list:
@@ -88,7 +88,11 @@ class Level:
         self.screen = screen
         self.run = True
         self.next_level = 1
-       
+        self.menu = Menu(self.screen, 2) 
+    def verify_selection(self,var):
+        if self.menu.selected == 1:
+            var = False
+        return var   
 class Level_1(Level):
     
     def __init__(self, screen):
@@ -97,24 +101,21 @@ class Level_1(Level):
         self.door1 = Door(1820,815,self.screen)
         self.door1_key = Key(30,700,self.screen)
         
+    
+        
     def call_level_1(self):
-        
-
+     
         clock = pygame.time.Clock()
-        
-
+   
         level1_floors = [[0, 1015, 31, [images.mid_wood_floor,images.mid_wood_floor,images.mid_wood_floor], self.screen,True],
                         [0, 750, 16,[images.mid_wood_floor,images.mid_wood_floor,images.mid_wood_floor],self.screen,False],
                         [1155, 750, 15,[images.mid_wood_floor,images.mid_wood_floor,images.mid_wood_floor],self.screen,False]]
         
         level1_ladders = [[1040, 1015, 2, images.common_ladder,self.screen]]
 
-
         floors = create_level_floors(level1_floors)
         ladders = create_level_ladders(level1_ladders)
         
-        
-
         while self.run:
             
             self.screen.fill(const.SCREEN_COLOR)
@@ -122,7 +123,8 @@ class Level_1(Level):
             pressed_keys = pygame.key.get_pressed()
             
             if pressed_keys[pygame.K_ESCAPE]:
-                    self.run = False
+                    self.menu.call_inital_menu()
+                    
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.run = False
@@ -144,6 +146,8 @@ class Level_1(Level):
             if self.door1.shape.colliderect(self.player.shape) and self.door1.enabled:
                 self.run = False   
                 self.next_level = 2
+            
+            self.run = self.verify_selection(self.run)
             
             pygame.display.update()
         
@@ -167,4 +171,5 @@ class Level_2(Level):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.run = False
+            self.verify_selection(self.run)
             pygame.display.update()

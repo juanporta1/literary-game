@@ -14,8 +14,6 @@ class Player:
     def move(self,stay_floor,is_first_floor,stay_ladder):
         pressed_keys = pygame.key.get_pressed()
         
-        print(stay_floor)
-        print(stay_ladder)
         if pressed_keys[pygame.K_w] and stay_ladder:
             self.shape.y -= const.PLAYER_VELOCITY
             print(1)

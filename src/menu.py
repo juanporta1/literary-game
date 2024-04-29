@@ -1,46 +1,38 @@
 import pygame
 import src.const as const
+import images
+import src.functions as functions
+from src.button import Button
 class Menu:
 
-    def __init__(self,screen):
+    def __init__(self,screen, type):
         
-        self.play_button = pygame.Rect(0 , 0, 500,100)
-        self.exit_button = pygame.Rect(0 , 0, 500,100)
-        self.play_button.center = (const.SCREEN_WIDTH / 2, int(const.SCREEN_HEIGHT / 3))
-        self.exit_button.center = (const.SCREEN_WIDTH / 2, int(const.SCREEN_HEIGHT / 2))
-        self.selected = 0
-        self.options = [self.play_button, self.exit_button]
-        self.actual_option = self.options[self.selected]
-        self.arrow = pygame.Rect(self.actual_option.x - 220, self.actual_option.y, 220, 200)
+        self.play_button = Button(const.SCREEN_WIDTH / 2 - 150,const.SCREEN_HEIGHT / 2 - 50, 300, 100,"JUGAR","../assets/fonts/Crang16px.ttf",(255,255,255), (255,255,0),(0,0,0),0,screen)
+        self.exit_button = Button(const.SCREEN_WIDTH / 2 - 150,const.SCREEN_HEIGHT / 2 + 50, 300, 100,"SALIR","../assets/fonts/Crang16px.ttf",(255,255,255), (255,255,0),(0,0,0),0,screen)
         
         self.screen = screen
-        
-    
+        self.selected = 0
+        self.menu_type = type
+        self.run = True
     def call_inital_menu(self):
         
-        clock = pygame.time.Clock()
-        run = True
+        self.run = True
         
-        while run:
+        while self.run:
             self.screen.fill((0,0,0))
-            clock.tick(const.FPS)
             pressed_key = pygame.key.get_pressed()
+            mx, my = pygame.mouse.get_pos()
             
-            pygame.draw.rect(self.screen,(255,0,0),self.play_button)
-            pygame.draw.rect(self.screen,(255,0,0),self.exit_button)
-            pygame.draw.rect(self.screen,(0,255,0),self.arrow)        
-            
-            if pressed_key[pygame.K_UP] and self.selected != 0:
-                self.selected -= 1
-            else:
-                self.selected = len(self.options) - 1
-                
-            if pressed_key[pygame.K_DOWN] and self.selected != 1:
-                self.selected += 1
-            else: 
-                self.selected = 0
-                
-            if pressed_key[pygame.K_ESCAPE]:
-                run = False
+            if pressed_key[pygame.K_e]:
+                self.run = False
+               
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.run =  False
                     
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    if self.play_button.collidepoint(mx, my) or self.exit_button.collidepoint(mx, my):
+                        self.run = False
+                    
+            
             pygame.display.update()

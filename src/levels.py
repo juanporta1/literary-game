@@ -86,13 +86,12 @@ class Key:
 class Level:
     def __init__(self,screen):
         self.screen = screen
-        self.run = True
+        self.run = True 
         self.next_level = 1
-        self.menu = Menu(self.screen, 2) 
-    def verify_selection(self,var):
-        if self.menu.selected == 1:
-            var = False
-        return var   
+        self.menu = Menu(self.screen, 2,"CONTINUAR", "SALIR") 
+        
+    
+    
 class Level_1(Level):
     
     def __init__(self, screen):
@@ -123,7 +122,10 @@ class Level_1(Level):
             pressed_keys = pygame.key.get_pressed()
             
             if pressed_keys[pygame.K_ESCAPE]:
-                    self.menu.call_inital_menu()
+                    option = self.menu.call_inital_menu()
+                    if not option:
+                        self.run = option
+                        continue
                     
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -133,6 +135,7 @@ class Level_1(Level):
             draw_list_floors(floors)
             draw_list_ladders(ladders)
             self.door1_key.catch(self.player.shape)
+            
             if self.door1_key.enabled:
                 self.door1.enabled = True
             
@@ -146,10 +149,11 @@ class Level_1(Level):
             if self.door1.shape.colliderect(self.player.shape) and self.door1.enabled:
                 self.run = False   
                 self.next_level = 2
-            
-            self.run = self.verify_selection(self.run)
+                return self.next_level
+        
             
             pygame.display.update()
+
         
 class Level_2(Level):
     

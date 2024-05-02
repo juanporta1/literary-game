@@ -4,8 +4,6 @@ import src.functions as functions
 
 class Button:
     
-    
-    
     def __init__(self, x, y, width, height, text, font, primary_color, focus_color,text_color, value, screen):
         
         self.screen = screen
@@ -16,13 +14,17 @@ class Button:
         self.focus_color = focus_color
         self.text_color = text_color
         self.value = value
+        self.selected = False
         
     def draw(self):
         mx,my = pygame.mouse.get_pos()
-        if self.shape.collidepoint(mx,my):
+        if self.selected:
             pygame.draw.rect(self.screen,self.focus_color,self.shape)
         else:
             pygame.draw.rect(self.screen,self.primary_color,self.shape)
-        self.screen.lit(self.text, (self.shape.width / 4 + self.shape.left, self.shape.height / 4 + self.shape.top))
+        self.screen.blit(self.text, (self.shape.left + ((self.shape.width - self.text.get_width()) / 2), self.shape.height / 3 + self.shape.top))
+        
+
+        
         
         

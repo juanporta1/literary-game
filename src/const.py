@@ -12,4 +12,3 @@ for m in screeninfo.get_monitors():
     SCREEN_WIDTH = m.width
     SCREEN_HEIGHT = m.height
     
-print(SCREEN_HEIGHT)

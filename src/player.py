@@ -16,7 +16,7 @@ class Player:
         
         if pressed_keys[pygame.K_w] and stay_ladder:
             self.shape.y -= const.PLAYER_VELOCITY
-            print(1)
+            
         if pressed_keys[pygame.K_s] and not stay_floor and stay_ladder:
             self.shape.y += const.PLAYER_VELOCITY
         if pressed_keys[pygame.K_a] and self.shape.left >= 0:
@@ -24,5 +24,5 @@ class Player:
         if pressed_keys[pygame.K_d] and self.shape.right <= 1920:
             self.shape.x += const.PLAYER_VELOCITY
         if not stay_floor and not stay_ladder:
-            print(2)
+            
             self.shape.y += const.PLAYER_VELOCITY

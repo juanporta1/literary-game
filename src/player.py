@@ -1,9 +1,10 @@
 import pygame
 import src.const as const
+from src.functions import scale_ubication_x,scale_ubication_y,scale_individual_image
 class Player:
     
     def __init__(self,x,y):
-        self.shape = pygame.Rect(x, y, const.PLAYER_WIDTH, const.PLAYER_HEIGHT)
+        self.shape = pygame.Rect(scale_ubication_x(x), scale_ubication_y(y), const.PLAYER_WIDTH, const.PLAYER_HEIGHT)
         self.x = self.shape.topright
         print(self.x)
     def draw(self,screen,color):

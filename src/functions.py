@@ -13,6 +13,16 @@ def scale_images_screen(image):
     newImage = pygame.transform.scale(image, (int(image.get_width() * width_multiplication), int(image.get_height() * height_multiplication)))
     return newImage
 
+def scale_ubication_x(var):
+
+    var = (var * const.SCREEN_WIDTH) / const.SCREEN_RIGHT_WIDTH
+    return var
+def scale_ubication_y(var):
+
+    var = (var * const.SCREEN_HEIGHT) / const.SCREEN_RIGHT_HEIGHT
+    return var
+
+
 
 
     

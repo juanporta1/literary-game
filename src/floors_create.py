@@ -1,6 +1,7 @@
 from src.floor import Floor
 import pygame
 import random
+from src.functions import scale_ubication_x,scale_ubication_y,scale_images_screen
 
 class Floors_Create:
     

@@ -43,6 +43,7 @@ while principal_run:
         if event.type == pygame.QUIT:
             principal_run = False
         
+        
     pygame.display.update()
 
 pygame.quit()

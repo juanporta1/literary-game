@@ -7,6 +7,7 @@ from src.floors_create import Floors_Create
 from src.ladders_create import Ladders_Create
 import src.functions as functions
 from src.menu import Menu
+from src.functions import scale_ubication_x,scale_ubication_y,scale_images_screen
 
 def create_level_floors(floor_list):
     draw_floors = []
@@ -69,7 +70,7 @@ class Door:
 
 class Key:
     def __init__(self, x, y, screen): 
-        self.shape = pygame.Rect(x,y,50,50)
+        self.shape = pygame.Rect((x),y,50,50)
         self.enabled = False
         self.screen = screen
         
@@ -97,8 +98,8 @@ class Level_1(Level):
     def __init__(self, screen):
         super().__init__(screen)
         self.player = Player(x = 10, y = 835)
-        self.door1 = Door(1820,815,self.screen)
-        self.door1_key = Key(30,700,self.screen)
+        self.door1 = Door(scale_ubication_x(1820),scale_ubication_y(815),self.screen)
+        self.door1_key = Key(scale_ubication_x(30),scale_ubication_y(850),self.screen)
         
     
         
@@ -106,11 +107,11 @@ class Level_1(Level):
      
         clock = pygame.time.Clock()
    
-        level1_floors = [[0, 1015, 31, [images.mid_wood_floor,images.mid_wood_floor,images.mid_wood_floor], self.screen,True],
-                        [0, 750, 16,[images.mid_wood_floor,images.mid_wood_floor,images.mid_wood_floor],self.screen,False],
-                        [1155, 750, 15,[images.mid_wood_floor,images.mid_wood_floor,images.mid_wood_floor],self.screen,False]]
+        level1_floors = [[0, scale_ubication_y(1015), 31, [images.mid_wood_floor,images.mid_wood_floor,images.mid_wood_floor], self.screen,True],
+                        [0, scale_ubication_y(750), 16,[images.mid_wood_floor,images.mid_wood_floor,images.mid_wood_floor],self.screen,False],
+                        [scale_ubication_x(1155), scale_ubication_y(750), 15,[images.mid_wood_floor,images.mid_wood_floor,images.mid_wood_floor],self.screen,False]]
         
-        level1_ladders = [[1040, 1015, 2, images.common_ladder,self.screen]]
+        level1_ladders = [[scale_ubication_x(1040), scale_ubication_y(1015), 2, images.common_ladder,self.screen]]
 
         floors = create_level_floors(level1_floors)
         ladders = create_level_ladders(level1_ladders)

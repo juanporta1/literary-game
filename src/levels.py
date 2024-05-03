@@ -99,7 +99,7 @@ class Level_1(Level):
         super().__init__(screen)
         self.player = Player(x = 10, y = 835)
         self.door1 = Door(scale_ubication_x(1820),scale_ubication_y(815),self.screen)
-        self.door1_key = Key(scale_ubication_x(30),scale_ubication_y(850),self.screen)
+        self.door1_key = Key(scale_ubication_x(30),scale_ubication_y(700),self.screen)
         
     
         

@@ -7,7 +7,7 @@ class Button:
     def __init__(self, x, y, width, height, text, font, primary_color, focus_color,text_color, value, screen):
         
         self.screen = screen
-        self.font = pygame.font.Font(font, 30)
+        self.font = font
         self.shape = pygame.Rect(x,y,width,height)
         self.text = self.font.render(text,0,text_color)
         self.primary_color = primary_color

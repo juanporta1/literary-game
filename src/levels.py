@@ -8,6 +8,7 @@ from src.ladders_create import Ladders_Create
 import src.functions as functions
 from src.menu import Menu
 from src.functions import scale_ubication_x,scale_ubication_y,scale_images_screen
+from src.questions import Question
 
 def create_level_floors(floor_list):
     draw_floors = []
@@ -69,10 +70,12 @@ class Door:
             self.clock = pygame.time.get_ticks()
 
 class Key:
-    def __init__(self, x, y, screen): 
+    def __init__(self, x, y, screen, door,question): 
         self.shape = pygame.Rect((x),y,50,50)
         self.enabled = False
         self.screen = screen
+        self.door = door
+        self.question = question
         
     def catch(self,player):
         pressed_key = pygame.key.get_pressed()
@@ -80,9 +83,15 @@ class Key:
             self.screen.blit(functions.scale_images_screen(functions.scale_individual_image(images.key_e,2,2)), (const.SCREEN_WIDTH/2 - functions.scale_images_screen(images.key_e).get_width() / 2, 900 ))
             
         if self.shape.colliderect(player) and pressed_key[pygame.K_e]:
-            self.enabled = True
+            selection = self.question.draw()
+            if selection:
+                self.enabled = True
+                self.door.enabled = True
+            
         if not self.enabled:
             pygame.draw.rect(self.screen,(0,255,255),self.shape)    
+        
+        self.door.draw()
         
 class Level:
     def __init__(self,screen):
@@ -91,15 +100,16 @@ class Level:
         self.next_level = 1
         self.menu = Menu(self.screen, 2,"CONTINUAR", "SALIR") 
         
-    
+
     
 class Level_1(Level):
     
     def __init__(self, screen):
         super().__init__(screen)
         self.player = Player(x = 10, y = 835)
-        self.door1 = Door(scale_ubication_x(1820),scale_ubication_y(815),self.screen)
-        self.door1_key = Key(scale_ubication_x(30),scale_ubication_y(700),self.screen)
+        self.main_door = Door(scale_ubication_x(1820),scale_ubication_y(815),self.screen)
+        self.main_question = Question("¿Holaa?",["uno", "dos", "verdadera","cuatro"],2,self.screen)
+        self.main_door_key = Key(scale_ubication_x(30),scale_ubication_y(700),self.screen,self.main_door,self.main_question)
         
     
         
@@ -115,6 +125,8 @@ class Level_1(Level):
 
         floors = create_level_floors(level1_floors)
         ladders = create_level_ladders(level1_ladders)
+        
+        
         
         while self.run:
             
@@ -132,14 +144,9 @@ class Level_1(Level):
                 if event.type == pygame.QUIT:
                     self.run = False
 
-            self.door1.draw()
             draw_list_floors(floors)
             draw_list_ladders(ladders)
-            self.door1_key.catch(self.player.shape)
-            
-            if self.door1_key.enabled:
-                self.door1.enabled = True
-            
+            self.main_door_key.catch(self.player.shape)
             
             stay_floor, is_first_floor = Floors_Create.detect_floor(floors, self.player)
             stay_ladder = Ladders_Create.detect_ladder(ladders, self.player)    
@@ -147,7 +154,7 @@ class Level_1(Level):
             self.player.draw(self.screen,(255,255,0))    
             self.player.move(stay_floor, is_first_floor, stay_ladder)    
             
-            if self.door1.shape.colliderect(self.player.shape) and self.door1.enabled:
+            if self.main_door.shape.colliderect(self.player.shape) and self.main_door.enabled:
                 self.run = False   
                 self.next_level = 2
                 return self.next_level
@@ -162,7 +169,9 @@ class Level_2(Level):
         super().__init__(screen)
         self.player = Player(x = 10, y = 1080 - 65 - 180)
         self.door1 = Door(1820,815,self.screen)
-        self.door1_key = Key(30,700,self.screen)
+        self.main_question = Question("¿Holaa?",["falsa", "falsa", "verdadera","falsa"],2,self.screen)
+        self.door1_key = Key(30,700,self.screen,self.door1,self.main_question)
+        
         
     def call_level_2(self):
         clock = pygame.time.Clock()

@@ -7,9 +7,9 @@ class Menu:
 
     def __init__(self,screen, type, text1, text2):
         
-        self.font = pygame.font.Font("assets/fonts/Crang16px.ttf",16)
-        self.play_button = Button(const.SCREEN_WIDTH / 2 - 150,const.SCREEN_HEIGHT / 2 - 100, 300, 100,text1,"assets/fonts/Crang16px.ttf",(255,255,255), (55,55,55),(0,0,0),0,screen)
-        self.exit_button = Button(const.SCREEN_WIDTH / 2 - 150,const.SCREEN_HEIGHT / 2 + 100, 300, 100,text2,"assets/fonts/Crang16px.ttf",(255,255,255), (55,55,55),(0,0,0),0,screen)
+        self.font = pygame.font.Font("assets/fonts/Crang16px.ttf",30)
+        self.play_button = Button(const.SCREEN_WIDTH / 2 - 150,const.SCREEN_HEIGHT / 2 - 100, 300, 100,text1,self.font,(255,255,255), (55,55,55),(0,0,0),0,screen)
+        self.exit_button = Button(const.SCREEN_WIDTH / 2 - 150,const.SCREEN_HEIGHT / 2 + 100, 300, 100,text2,self.font,(255,255,255), (55,55,55),(0,0,0),0,screen)
         
         self.action = self.font.render("PRESIONE",0,(255,255,255))
     

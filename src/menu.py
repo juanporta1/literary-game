@@ -20,7 +20,7 @@ class Menu:
     def call_inital_menu(self):
         selected = 2
         
-        
+        self.run = True
         while self.run:
             self.screen.fill((0,0,0))
             pressed_key = pygame.key.get_pressed()

@@ -108,7 +108,7 @@ class Level_1(Level):
         super().__init__(screen)
         self.player = Player(x = 10, y = 835)
         self.main_door = Door(scale_ubication_x(1820),scale_ubication_y(815),self.screen)
-        self.main_question = Question("¿Holaa?",["uno", "dos", "verdadera","cuatro"],2,self.screen)
+        self.main_question = Question("¿Cuál es el impacto de la inteligencia artificial en la sociedad moderna y cómo puede influir e la economía global en las próximas décadas, considerando aspectos éticos, políticos y tecnológicos?",["uno", "dos", "verdadera","cuatro"],2,self.screen)
         self.main_door_key = Key(scale_ubication_x(30),scale_ubication_y(700),self.screen,self.main_door,self.main_question)
         
     
@@ -127,7 +127,7 @@ class Level_1(Level):
         ladders = create_level_ladders(level1_ladders)
         
         
-        
+        self.run = True
         while self.run:
             
             self.screen.fill(const.SCREEN_COLOR)

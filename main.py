@@ -26,6 +26,8 @@ while principal_run:
     clock.tick(const.FPS)
     key_pressed = pygame.key.get_pressed()
     option = initial_menu.call_inital_menu()
+    actual_level = 1
+    
     
     if not option:
         principal_run = option
@@ -36,9 +38,7 @@ while principal_run:
         
     elif actual_level == 2:
         actual_level = level2.call_level_2()
-    
-        
-    
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             principal_run = False

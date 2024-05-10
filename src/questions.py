@@ -2,12 +2,13 @@ import src.functions as functions
 import pygame
 import src.const as const
 from src.button import Button
+from src.functions import scale_ubication_y,scale_ubication_x
 
 
 class Question:
     
     def __init__(self,question, texts_responses, true,screen):
-        self.box_question = pygame.Rect(50,50,const.SCREEN_WIDTH - 100, const.SCREEN_HEIGHT / 2 - 50)
+        self.box_question = pygame.Rect(scale_ubication_x(50),scale_ubication_y(50),const.SCREEN_WIDTH - scale_ubication_x(100), const.SCREEN_HEIGHT / 2 - scale_ubication_y(50))
     
         self.font_response = pygame.font.Font("assets/fonts/Minecraftia-Regular.ttf", 16)
         self.font_question = pygame.font.Font("assets/fonts/Minecraftia-Regular.ttf", 25)
@@ -29,14 +30,17 @@ class Question:
                 self.total_height += question.get_height()
                 self.questions.append(question)
                 self.new_question = ""  
-            
-        self.response_one = Button(50, const.SCREEN_HEIGHT / 2 + 50, const.SCREEN_WIDTH / 2 - 100, const.SCREEN_HEIGHT / 4 - 100, texts_responses[0], self.font_response, (55,55,55), (25,25,25), (235,235,235), False,self.screen)
+        fifty_var_x = scale_ubication_x(50)  
+        fifty_var_y = scale_ubication_y(50)
+        hundred_var_x = scale_ubication_x(100)
+        hundred_var_y = scale_ubication_y(100)
+        self.response_one = Button(fifty_var_x, const.SCREEN_HEIGHT / 2 + fifty_var_y, const.SCREEN_WIDTH / 2 - hundred_var_x, const.SCREEN_HEIGHT / 4 - hundred_var_y, texts_responses[0], self.font_response, (55,55,55), (25,25,25), (235,235,235), False,self.screen)
         
-        self.response_two = Button(const.SCREEN_WIDTH / 2 + 50, const.SCREEN_HEIGHT / 2 + 50, const.SCREEN_WIDTH / 2 - 100, const.SCREEN_HEIGHT / 4 - 100, texts_responses[1], self.font_response, (55,55,55), (25,25,25), (235,235,235), False,self.screen)
+        self.response_two = Button(const.SCREEN_WIDTH / 2 + fifty_var_x, const.SCREEN_HEIGHT / 2 + fifty_var_y, const.SCREEN_WIDTH / 2 - hundred_var_x, const.SCREEN_HEIGHT / 4 - hundred_var_y, texts_responses[1], self.font_response, (55,55,55), (25,25,25), (235,235,235), False,self.screen)
         
-        self.response_three = Button(50, (const.SCREEN_HEIGHT- (const.SCREEN_HEIGHT / 4)) + 50, const.SCREEN_WIDTH / 2 - 100, const.SCREEN_HEIGHT / 4 - 100, texts_responses[2], self.font_response, (55,55,55), (25,25,25), (235,235,235), False,self.screen)
+        self.response_three = Button(fifty_var_x, (const.SCREEN_HEIGHT- (const.SCREEN_HEIGHT / 4)) + fifty_var_y, const.SCREEN_WIDTH / 2 - fifty_var_x, const.SCREEN_HEIGHT / 4 - hundred_var_y, texts_responses[2], self.font_response, (55,55,55), (25,25,25), (235,235,235), False,self.screen)
         
-        self.response_four = Button(const.SCREEN_WIDTH / 2 + 50, (const.SCREEN_HEIGHT- (const.SCREEN_HEIGHT / 4)) + 50, const.SCREEN_WIDTH / 2 - 100, const.SCREEN_HEIGHT / 4 - 100, texts_responses[3], self.font_response, (55,55,55), (25,25,25), (235,235,235), False,self.screen)
+        self.response_four = Button(const.SCREEN_WIDTH / 2 + fifty_var_x, (const.SCREEN_HEIGHT- (const.SCREEN_HEIGHT / 4)) + fifty_var_y, const.SCREEN_WIDTH / 2 - hundred_var_x, const.SCREEN_HEIGHT / 4 - hundred_var_y, texts_responses[3], self.font_response, (55,55,55), (25,25,25), (235,235,235), False,self.screen)
         self.responses = [self.response_one,self.response_two,self.response_three,self.response_four]
         
         self.responses[true].value = True

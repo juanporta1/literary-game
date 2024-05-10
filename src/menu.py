@@ -3,6 +3,7 @@ import src.const as const
 import images
 import src.functions as functions
 from src.button import Button
+from src.functions import scale_ubication_x,scale_ubication_y
 class Menu:
 
     def __init__(self,screen, type, text1, text2):
@@ -63,7 +64,7 @@ class Menu:
                 elif selected == 1:
                     return False  
             
-            self.screen.blit(self.action,(const.SCREEN_WIDTH / 2 - self.action.get_width(), const.SCREEN_HEIGHT * .8))
+            self.screen.blit(self.action,(scale_ubication_x(const.SCREEN_WIDTH / 2 - self.action.get_width()), const.SCREEN_HEIGHT * .8))
             self.screen.blit(images.key_e, (const.SCREEN_WIDTH / 2 + images.key_e.get_width() / 2, const.SCREEN_HEIGHT * .8 - images.key_e.get_height() / 3))
             
             for event in pygame.event.get():

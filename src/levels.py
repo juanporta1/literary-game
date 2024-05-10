@@ -35,7 +35,7 @@ def draw_list_ladders(list):
 class Door:
     
     def __init__(self,x,y,screen):   
-        self.shape = pygame.Rect(x,y,100, 200)
+        self.shape = pygame.Rect(scale_ubication_x(x),scale_ubication_y(y),100, 200)
         self.enabled = False
         self.screen = screen
         self.green_arrow = images.green_arrow
@@ -71,7 +71,7 @@ class Door:
 
 class Key:
     def __init__(self, x, y, screen, door,question): 
-        self.shape = pygame.Rect((x),y,50,50)
+        self.shape = pygame.Rect(scale_ubication_x(x),scale_ubication_y(y),50,50)
         self.enabled = False
         self.screen = screen
         self.door = door
@@ -107,9 +107,9 @@ class Level_1(Level):
     def __init__(self, screen):
         super().__init__(screen)
         self.player = Player(x = 10, y = 835)
-        self.main_door = Door(scale_ubication_x(1820),scale_ubication_y(815),self.screen)
+        self.main_door = Door(1820,815,self.screen)
         self.main_question = Question("¿Cuál es el impacto de la inteligencia artificial en la sociedad moderna y cómo puede influir e la economía global en las próximas décadas, considerando aspectos éticos, políticos y tecnológicos?",["uno", "dos", "verdadera","cuatro"],2,self.screen)
-        self.main_door_key = Key(scale_ubication_x(30),scale_ubication_y(700),self.screen,self.main_door,self.main_question)
+        self.main_door_key = Key(30,700,self.screen,self.main_door,self.main_question)
         
     
         
@@ -117,11 +117,11 @@ class Level_1(Level):
      
         clock = pygame.time.Clock()
    
-        level1_floors = [[0, scale_ubication_y(1015), 31, [images.mid_wood_floor,images.mid_wood_floor,images.mid_wood_floor], self.screen,True],
-                        [0, scale_ubication_y(750), 16,[images.mid_wood_floor,images.mid_wood_floor,images.mid_wood_floor],self.screen,False],
-                        [scale_ubication_x(1155), scale_ubication_y(750), 15,[images.mid_wood_floor,images.mid_wood_floor,images.mid_wood_floor],self.screen,False]]
+        level1_floors = [[0, 1015, 31, [images.mid_wood_floor,images.mid_wood_floor,images.mid_wood_floor], self.screen,True],
+                        [0, 750, 16,[images.mid_wood_floor,images.mid_wood_floor,images.mid_wood_floor],self.screen,False],
+                        [1155, 750, 15,[images.mid_wood_floor,images.mid_wood_floor,images.mid_wood_floor],self.screen,False]]
         
-        level1_ladders = [[scale_ubication_x(1040), scale_ubication_y(1015), 2, images.common_ladder,self.screen]]
+        level1_ladders = [[1040, 1015, 2, images.common_ladder,self.screen]]
 
         floors = create_level_floors(level1_floors)
         ladders = create_level_ladders(level1_ladders)
